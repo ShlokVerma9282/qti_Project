@@ -1,14 +1,23 @@
-import { useState } from "react";
-import axios from 'axios'
+import { useState, useEffect } from "react";
+import axios from 'axios';
 
 export default function C1() {
     const [activeButton, setActiveButton] = useState("button1");
     const [activeTab, setActiveTab] = useState("button1");
     const [selectedFile, setSelectedFile] = useState(null);
-    const [title,setTitle] = useState();
-    const [slug,setSlug] = useState();
-    const [about,setAbout] = useState();
+    const num=1;
+    const [title, setTitle] = useState();
+    const [slug, setSlug] = useState();
+    const [about, setAbout] = useState();
     const defaultBackgroundImage = 'https://www.shutterstock.com/image-vector/default-ui-image-placeholder-wireframes-600nw-1037719192.jpg'; // Provide a valid URL for your default image
+
+    useEffect(() => {
+        if (title && slug && about) {
+            axios.post('http://localhost:3001/c_1', {num,title, slug, about })
+                .then(result => console.log(result))
+                .catch(err => console.log(err))
+        }
+    }, [title, slug, about]);
 
     const handleFileInputChange = (event) => {
         const file = event.target.files[0];
@@ -41,16 +50,13 @@ export default function C1() {
     };
 
     const handleImageClick = () => {
-
         console.log('Image clicked');
     };
-    
-    const handleSubmit =(e)=>{
-        e.preventDefault()
-        axios.post('http://localhost:3001/c_1',{title,slug,about})
-        .then(result => console.log(result))
-        .catch(err=> console.log(err))
-    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        // No need for explicit submission handling since it's handled by useEffect now
+    };
 
     return (
         <div className="bg-gray-100 ">
@@ -58,21 +64,21 @@ export default function C1() {
                 <form onSubmit={handleSubmit}>
                     <div className="mb-4">
                         <label htmlFor="course-title" className="block mb-2 font-bold ">Course Title</label>
-                        <input  onChange={(e)=> setTitle(e.target.value)} type="text" id="course-title" className="w-full border-2 border-gray-300 p-2 rounded-lg" placeholder="Enter course title" />
+                        <input onChange={(e) => setTitle(e.target.value)} type="text" id="course-title" className="w-full border-2 border-gray-300 p-2 rounded-lg" placeholder="Enter course title" />
                         <p style={{ color: "grey" }}>© Title should be 30 character</p>
                     </div>
                     <div className="mb-4">
                         <label htmlFor="course-slug" className="block mb-2 font-bold">Course Slug</label>
-                        <input onChange={(e)=> setSlug(e.target.value)} type="text" id="course-slug" className="w-full border-2 border-gray-300 p-2 rounded-lg" placeholder="Enter course slug" />
+                        <input onChange={(e) => setSlug(e.target.value)} type="text" id="course-slug" className="w-full border-2 border-gray-300 p-2 rounded-lg" placeholder="Enter course slug" />
                         <p style={{ color: "grey" }}>© Permalink:https://yourdomain.com/new-course
                         </p>
                     </div>
                     <div className="mb-4">
                         <label htmlFor="course-permalink" className="block mb-2 font-bold">About Course</label>
-                        <input onChange={(e)=> setAbout(e.target.value)} type="text" id="course-permalink" className="w-full h-32  border-2 border-gray-300 p-2 rounded-lg" />
+                        <input onChange={(e) => setAbout(e.target.value)} type="text" id="course-permalink" className="w-full h-32  border-2 border-gray-300 p-2 rounded-lg" />
                         <p style={{ color: "grey" }}>© HTML or plain text allowed, no emoji This field is used for search, so please be descriptive!</p>
                     </div>
-                    <button type="submit" className="bg-blue-500 text-white px-5 py-2 rounded-lg">Create Course</button>
+                    {/* No need for a button here since data is dynamically updated */}
                 </form>
                     <h1 className="text-lg font-bold text-black mt-6">Course Setting</h1>
                     <div className="m-5 flex items-center">
