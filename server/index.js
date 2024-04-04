@@ -22,8 +22,6 @@ app.post('/c_1', async (req, res) => {
             existingCourse.slug = slug;
             existingCourse.about = about;
             existingCourse.difficulty = difficulty;
-            existingCourse.discount = discount;
-            existingCourse.price = price;
             existingCourse.student = student;
             await existingCourse.save();
             res.json(existingCourse); // Return the updated course
@@ -35,8 +33,6 @@ app.post('/c_1', async (req, res) => {
                 slug,
                 about,
                 difficulty,
-                discount,
-                price,
                 student
             });
             await newCourse.save();
