@@ -10,7 +10,7 @@ app.use(cors());
 mongoose.connect("mongodb://127.0.0.1:27017/course");
 
 app.post('/c_1', async (req, res) => {
-    const { num, title, slug, about } = req.body;
+    const { num, title, slug, about,difficulty,discount,price,student } = req.body;
 
     try {
         // Check if a course with num 1 exists
@@ -21,6 +21,10 @@ app.post('/c_1', async (req, res) => {
             existingCourse.title = title;
             existingCourse.slug = slug;
             existingCourse.about = about;
+            existingCourse.difficulty = difficulty;
+            existingCourse.discount = discount;
+            existingCourse.price = price;
+            existingCourse.student = student;
             await existingCourse.save();
             res.json(existingCourse); // Return the updated course
         } else {
@@ -29,7 +33,11 @@ app.post('/c_1', async (req, res) => {
                 num: 1,
                 title,
                 slug,
-                about
+                about,
+                difficulty,
+                discount,
+                price,
+                student
             });
             await newCourse.save();
             res.json(newCourse); // Return the newly created course

@@ -9,15 +9,20 @@ export default function C1() {
     const [title, setTitle] = useState();
     const [slug, setSlug] = useState();
     const [about, setAbout] = useState();
+    const [difficulty, setDifficulty] = useState();
+    const [student, setStudent] = useState();
+    const [price,setPrice] = useState();
+    const [discount, setDiscount] = useState();
+
     const defaultBackgroundImage = 'https://www.shutterstock.com/image-vector/default-ui-image-placeholder-wireframes-600nw-1037719192.jpg'; // Provide a valid URL for your default image
 
     useEffect(() => {
-        if (title && slug && about) {
-            axios.post('http://localhost:3001/c_1', {num,title, slug, about })
+        if (title && slug && about && student  && price && discount && difficulty) {
+            axios.post('http://localhost:3001/c_1', {num,title, slug, about,student,price,discount,difficulty})
                 .then(result => console.log(result))
                 .catch(err => console.log(err))
         }
-    }, [title, slug, about]);
+    }, [title, slug, about,student,price,discount,difficulty]);
 
     const handleFileInputChange = (event) => {
         const file = event.target.files[0];
@@ -112,6 +117,7 @@ export default function C1() {
                                             className="w-full h-10 border-2 border-gray-300 p-2 rounded-lg leading-tight"
                                             id="max-students"
                                             placeholder="100"
+                                            onChange={(e) => setStudent(e.target.value)}
                                         />
                                         <p>Number of students that can enroll in this course. Set 0 for no limits</p>
                                     </div>
@@ -120,6 +126,7 @@ export default function C1() {
                                         <select
                                             className="w-full h-10 border-2 border-gray-300 p-2 rounded-lg leading-tight"
                                             id="difficulty-level"
+                                            onChange={(e) => setDifficulty(e.target.value)}
                                         >
                                             <option value="all-levels">All Levels</option>
                                             <option value="beginner">Beginner</option>
@@ -254,6 +261,7 @@ export default function C1() {
                                         id="regular-price"
                                         className="w-full border-2 border-gray-300 p-2 rounded-lg"
                                         placeholder="$ Regular Price"
+                                        onChange={(e) => setPrice(e.target.value)}
                                     />
                                     <p className="text-gray-600">© The Course Price Includes Your Author Fee.</p>
                                 </div>
@@ -266,6 +274,7 @@ export default function C1() {
                                         id="discounted-price"
                                         className="w-full border-2 border-gray-300 p-2 rounded-lg"
                                         placeholder="$ Discounted Price"
+                                        onChange={(e) => setDiscount(e.target.value)}
                                     />
                                     <p className="text-gray-600">© The Course Price Includes Your Author Fee.</p>
                                 </div>
