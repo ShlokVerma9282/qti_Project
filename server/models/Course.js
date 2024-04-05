@@ -6,7 +6,6 @@ const courseSchema = new mongoose.Schema({
     slug:String,
     about:String,
     student:Number,
-    discount:Number
 })
 
 const courseModel = mongoose.model("course",courseSchema)

@@ -1,7 +1,20 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from 'axios';
+
 
 export default function C4() {
     const [activeTab, setActiveTab] = useState("button1");
+    const num=1;
+    const [price, setPrice] = useState();
+    const [discount, setDiscount] = useState();
+
+    useEffect(() => {
+        if (price && discount) {
+            axios.post('http://localhost:3001/c_4', {num,price,discount})
+                .then(result => console.log(result))
+                .catch(err => console.log(err))
+        }
+    }, [price,discount]);
 
     return (
         <div className="bg-gray-100 ">
@@ -40,6 +53,7 @@ export default function C4() {
                                     id="regular-price"
                                     className="w-full border-2 border-gray-300 p-2 rounded-lg"
                                     placeholder="₹ Regular Price"
+                                    onChange={(e) => setPrice(e.target.value)}
                                 />
                                 <p className="text-gray-600">© The Project Price Includes Your Author Fee.</p>
                             </div>
@@ -52,6 +66,7 @@ export default function C4() {
                                     id="discounted-price"
                                     className="w-full border-2 border-gray-300 p-2 rounded-lg"
                                     placeholder="₹ Discounted Price"
+                                    onChange={(e) => setDiscount(e.target.value)}
                                 />
                                 <p className="text-gray-600">© The Project Price Includes Your Author Fee.</p>
                             </div>
