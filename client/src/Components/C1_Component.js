@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from 'axios';
 
 export default function C1() {
@@ -11,7 +11,6 @@ export default function C1() {
     const [difficulty, setDifficulty] = useState();
     const [student, setStudent] = useState();
 
-    const defaultBackgroundImage = 'https://www.shutterstock.com/image-vector/default-ui-image-placeholder-wireframes-600nw-1037719192.jpg'; // Provide a valid URL for your default image
 
     useEffect(() => {
         if (title && slug && about && student  && difficulty) {
@@ -21,39 +20,51 @@ export default function C1() {
         }
     }, [title, slug, about,student,difficulty]);
 
-    const handleFileInputChange = (event) => {
-        const file = event.target.files[0];
-        if (file.size <= 700 * 430 * 3 && (file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif' || file.type === 'image/webp')) {
-            setSelectedFile(file);
-        } else {
-            alert('Please select a file that is 700x430 pixels or smaller and is a JPG, JPEG, PNG, GIF, or WEBP file.');
+    const handleFileInputChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            checkImageDimensions(file);
         }
     };
 
-    const handleDragOver = (event) => {
-        event.preventDefault();
-        event.currentTarget.classList.add('border-4', 'border-dashed', 'border-blue-500', 'hover:bg-gray-100');
+    const handleDragOver = (e) => {
+        e.preventDefault();
     };
 
-    const handleDragLeave = (event) => {
-        event.preventDefault();
-        event.currentTarget.classList.remove('border-4', 'border-dashed', 'border-blue-500', 'hover:bg-gray-100');
+    const handleDragEnter = (e) => {
+        e.preventDefault();
     };
 
-    const handleDrop = (event) => {
-        event.preventDefault();
-        event.currentTarget.classList.remove('border-4', 'border-dashed', 'border-blue-500', 'hover:bg-gray-100');
-        const file = event.dataTransfer.files[0];
-        if (file.size <= 700 * 430 * 3 && (file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif' || file.type === 'image/webp')) {
-            setSelectedFile(file);
-        } else {
-            alert('Please select a file that is 700x430 pixels or smaller and is a JPG, JPEG, PNG, GIF, or WEBP file.');
+    const handleDragLeave = (e) => {
+        e.preventDefault();
+        // Get the element under the mouse pointer
+        const target = document.elementFromPoint(e.clientX, e.clientY);
+        // Check if the element is outside the drop area
+        if (!target.closest('.drop-area')) {
+            setSelectedFile(null); // Reset selected file
         }
     };
 
-    const handleImageClick = () => {
-        console.log('Image clicked');
+    const handleDrop = (e) => {
+        e.preventDefault();
+        const file = e.dataTransfer.files[0];
+        if (file) {
+            checkImageDimensions(file);
+        }
     };
+
+    const checkImageDimensions = (file) => {
+        const image = new Image();
+        image.src = URL.createObjectURL(file);
+        image.onload = () => {
+            if (image.width === 700 && image.height === 430) {
+                setSelectedFile(file);
+            } else {
+                alert('Image dimensions must be 700x430 pixels.');
+            }
+        };
+    };
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -223,60 +234,46 @@ export default function C1() {
                             </div>
                         )}
                     </div>
-                    
                     <div className="mt-6">
-                        <h1 className="block mb-2 font-bold text-lg">Project Thumbnail</h1>
-
-                        <div
-                            onClick={handleImageClick}
-                            onDragOver={handleDragOver}
-                            onDragLeave={handleDragLeave}
-                            onDrop={handleDrop}
-                            className="w-900 h-400 border-4 border-dashed border-blue-500 hover:bg-gray-100 flex flex-col justify-center items-center cursor-pointer"
-                            style={{ height: '400px' }} // Adjust height inline
-                        >
-                            <div
-                                className="flex flex-col justify-center items-center"
-                                style={{
-                                    backgroundImage: `url(${selectedFile ? URL.createObjectURL(selectedFile) : defaultBackgroundImage})`,
-                                    backgroundSize: 'cover',
-                                    backgroundPosition: 'center',
-                                    backgroundRepeat: 'no-repeat',
-                                    width: '100%',
-                                    height: '100%'
-                                }}
-                            >
-                                {selectedFile ? (
-                                    <p style={{ color: "grey" }}>Size: 700×430 pixels, File Support: JPG, JPEG, PNG, GIF, WEBP</p>
-                                ) : (
-                                    <>
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                            className="w-10 h-10 text-gray-500"
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth={2}
-                                                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                                            />
-                                        </svg>
-                                        <p className="mt-1 text-sm text-gray-600">Drag & drop your file here or click to select a file</p>
-                                        <input
-                                            type="file"
-                                            accept="image/jpeg,image/png,image/gif,image/webp"
-                                            className="hidden"
-                                            onChange={handleFileInputChange}
-                                        />
-                                    </>
-                                )}
-                            </div>
-                        </div>
-                        <h1 style={{ color: "grey" }}>© Size: 700×430 pixels, File Support: JPG, JPEG, PNG, GIF,</h1>
+            <h1 className="block mb-2 font-bold text-lg">Project Thumbnail</h1>
+                <label htmlFor="fileInput" onDragOver={handleDragOver} onDragEnter={handleDragEnter} onDragLeave={handleDragLeave} onDrop={handleDrop} className="w-900 h-600 border-4 border-dashed border-blue-500 hover:bg-gray-100 flex flex-col justify-center items-center cursor-pointer drop-area"style={{height:"450px"}}>
+                    <input
+                        type="file"
+                        id="fileInput"
+                        accept="image/jpeg,image/png,image/gif,image/webp"
+                        className="hidden"
+                        onChange={handleFileInputChange}
+                    />
+                    <div className="flex flex-col justify-center items-center">
+                        {selectedFile ? (
+                            <img
+                                src={URL.createObjectURL(selectedFile)}
+                                alt="Thumbnail"
+                                className="w-full h-full object-cover"
+                            />
+                        ) : (
+                            <>
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    className="w-10 h-10 text-gray-500"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                                    />
+                                </svg>
+                                <p className="mt-1 text-sm text-gray-600">Click or drop to upload a file</p>
+                            </>
+                        )}
                     </div>
+                </label>
+                <h1 style={{ color: "grey" }}>© Size: 700×430 pixels, File Support: JPG, JPEG, PNG, GIF</h1>
+            </div>
                 {/* </div> */}
             </div>
         </div>
