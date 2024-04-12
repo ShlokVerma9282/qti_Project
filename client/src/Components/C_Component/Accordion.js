@@ -4,6 +4,7 @@ import C1 from "../C1_Component";
 import C2 from "../C2_Component";
 import C3 from "../C3_Component";
 import C4 from "../C4_Component";
+import Stepper from "../stepper";
 
 export default function Accordion() {
 
@@ -18,6 +19,7 @@ export default function Accordion() {
     
     return (
         <div className="p-3 m-2">
+            <Stepper></Stepper>
             <div key={0} className="border-2 mb-4 rounded-md">
                 {/* Accordion header */}
                 <AccordionHeader

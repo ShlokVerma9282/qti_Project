@@ -1,0 +1,54 @@
+.step-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 9rem;
+}
+
+.step-item:not(:first-child)::before {
+  content: '';
+  background-color: #CBD5E0;
+  position: absolute;
+  width: calc(200% + 5rem); /* Adjusted width for the connector line */
+  height: 3px;
+  right: 50%;
+  top: 33.3333%;
+  transform: translateX(50%);
+}
+
+.step-item:last-child::before {
+  display: none; /* Hide the connector line after the last step */
+}
+
+.step {
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  position: relative;
+  background-color: #374151;
+  border-radius: 9999px;
+  font-weight: 600;
+  color: #FFFFFF;
+}
+
+.active .step {
+  background-color: #3B82F6;
+}
+
+.complete .step {
+  background-color: #34D399;
+}
+
+.complete p {
+  color: #34D399;
+}
+
+.complete:not(:first-child)::before,
+.active:not(:first-child)::before {
+  background-color: #34D399;
+}
