@@ -1,54 +1,53 @@
-.step-item {
-  position: relative;
+.stepper {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  width: 9rem;
-}
-
-.step-item:not(:first-child)::before {
-  content: '';
-  background-color: #CBD5E0;
-  position: absolute;
-  width: calc(200% + 5rem); /* Adjusted width for the connector line */
-  height: 3px;
-  right: 50%;
-  top: 33.3333%;
-  transform: translateX(50%);
-}
-
-.step-item:last-child::before {
-  display: none; /* Hide the connector line after the last step */
 }
 
 .step {
-  width: 2.5rem;
-  height: 2.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10;
   position: relative;
-  background-color: #374151;
-  border-radius: 9999px;
-  font-weight: 600;
-  color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.active .step {
-  background-color: #3B82F6;
+.step-number {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.complete .step {
-  background-color: #34D399;
+.step-name {
+  margin-top: 5px;
 }
 
-.complete p {
-  color: #34D399;
+.line {
+  flex-grow: 1;
+  height: 2px;
+  background-color: blue; /* Blue color for the line */
 }
 
-.complete:not(:first-child)::before,
-.active:not(:first-child)::before {
-  background-color: #34D399;
+.progress-bar {
+  position: absolute;
+ top:25%;
+ left:0;
+ 
+ height: 4px;
+ background-color: #ccc;
+
+}
+
+.progress {
+ 
+ height:100%;
+ background-color: #28a745;
+ transition:0.2s ease;
+}
+
+.btn {
+  margin-top: 20px;
 }

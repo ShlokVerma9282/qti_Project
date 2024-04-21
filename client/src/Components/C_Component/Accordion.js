@@ -6,6 +6,30 @@ import C3 from "../C3_Component";
 import C4 from "../C4_Component";
 import Stepper from "../stepper";
 
+const CHECKOUT_STEPS = [
+    {
+      name: "Project Info",
+      Component: () => <div>Provide your Project Info </div>,
+    },
+    {
+      name: "Project Intro Video",
+      Component: () => <div>Provide your Project Intro Video.</div>,
+    },
+    {
+      name: "Project Builder",
+      Component: () => <div>Complete Project Builder.</div>,
+    },
+    {
+      name: "Project Price",
+      Component: () => <div> Enter Project Price</div>,
+    },
+  
+    {
+      name: "Certificate Template",
+      Component: () => <div> Provide Certificate Templete</div>,
+    },
+  ];
+
 export default function Accordion() {
 
     // State to track which accordion item is active
@@ -19,7 +43,6 @@ export default function Accordion() {
     
     return (
         <div className="p-3 m-2">
-            <Stepper></Stepper>
             <div key={0} className="border-2 mb-4 rounded-md">
                 {/* Accordion header */}
                 <AccordionHeader
@@ -116,6 +139,7 @@ export default function Accordion() {
                     </div>
                 )}
             </div>
+            <Stepper stepsConfig={CHECKOUT_STEPS}></Stepper>
         </div>
     )
 }
